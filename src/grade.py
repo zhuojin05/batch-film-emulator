@@ -6,6 +6,7 @@ from processor import process_image
 
 # Safely import and register pillow-heif for optional HEIC/HEIF support
 try:
+    # pyrefly: ignore [missing-import]
     from pillow_heif import register_heif_opener
     register_heif_opener()
     HAS_HEIF = True
