@@ -4,6 +4,14 @@ import time
 import argparse
 from processor import process_image
 
+# Safely import and register pillow-heif for optional HEIC/HEIF support
+try:
+    from pillow_heif import register_heif_opener
+    register_heif_opener()
+    HAS_HEIF = True
+except ImportError:
+    HAS_HEIF = False
+
 def resolve_lut_path(style: str) -> str:
     """
     Resolves a style name (e.g., 'kodak_gold') to the actual .cube filepath.
@@ -84,7 +92,7 @@ def main():
         print("[INFO] No style specified. Processing without LUT color mapping.")
 
     # 3. Locate files to process
-    valid_extensions = (".jpg", ".jpeg")
+    valid_extensions = (".jpg", ".jpeg", ".heic", ".heif") if HAS_HEIF else (".jpg", ".jpeg")
     all_files = os.listdir(args.input)
     images_to_process = [
         f for f in all_files 
@@ -92,7 +100,10 @@ def main():
     ]
 
     if not images_to_process:
-        print(f"[INFO] No JPEG images (.jpg, .jpeg) found in input directory: {args.input}")
+        ext_desc = ".jpg, .jpeg, .heic, .heif" if HAS_HEIF else ".jpg, .jpeg"
+        print(f"[INFO] No images ({ext_desc}) found in input directory: {args.input}")
+        if not HAS_HEIF:
+            print("[INFO] Install 'pillow-heif' to enable processing of HEIC/HEIF images.")
         sys.exit(0)
 
     # Ensure output directory exists
