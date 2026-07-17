@@ -84,7 +84,7 @@ This tool utilizes Adobe `.cube` 3D LUT files for film color grading.
 
 Special thanks to the creators of the 3D LUT recipes used in this project:
 * **lclassic_neo_gold_200.cube** (LClassic Neo Gold 200) by [u/windycitychi_](https://www.reddit.com/user/windycitychi_) on Reddit. The original recipe and discussion can be found in the [r/Lumix subreddit](https://www.reddit.com/r/Lumix/comments/18kx9on/gold_200_film_sim_w_realtime_lut_recipe_lut/).
-
+* **rec709_fujifilm_3510_d65.cube**, **rec709_kodak_2383_d65.cube**, and **rec709_kodak_2393_d65.cube** (Print Film Emulations) by [Juan Melara](https://juanmelara.com.au/). The original downloads and details can be found on his [Print Film Emulation blog post](https://juanmelara.com.au/blog/print-film-emulation-luts-for-download).
 
 ---
 
