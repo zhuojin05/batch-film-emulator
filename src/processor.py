@@ -116,13 +116,14 @@ def process_image(
     input_path: str,
     output_path: str,
     lut_path: str = None,
+    lut_blend: float = 1.0,
     grain_intensity: float = None,
     target_size: int = 2000
 ) -> None:
     """
     Modular execution pipeline for a single image:
     1. Loads the image and converts to RGB.
-    2. Applies a 3D LUT (if provided).
+    2. Applies a 3D LUT and blends it with original (if provided).
     3. Resizes the image to the specified longest edge limit.
     4. Applies synthetic film grain (if intensity > 0).
     5. Saves the output file as a JPEG with 80% quality.
@@ -134,7 +135,12 @@ def process_image(
         # Apply LUT if requested
         if lut_path:
             lut = load_cube_file(lut_path)
-            img = img.filter(lut)
+            graded_img = img.filter(lut)
+            if lut_blend < 1.0:
+                img = Image.blend(img, graded_img, lut_blend)
+            else:
+                img = graded_img
+
 
         # Resize to emulate lab-scan optical softness
         if target_size:

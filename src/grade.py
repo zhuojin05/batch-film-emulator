@@ -73,6 +73,12 @@ def main():
         default=0.0,
         help="Optional noise level for synthetic grain (float, e.g. 0.15 for medium film grain)."
     )
+    parser.add_argument(
+        "--blend",
+        type=float,
+        default=1.0,
+        help="LUT blend strength/opacity (float between 0.0 and 1.0, default 1.0)."
+    )
 
     args = parser.parse_args()
 
@@ -128,6 +134,7 @@ def main():
                 input_path=in_file_path,
                 output_path=out_file_path,
                 lut_path=lut_path,
+                lut_blend=args.blend,
                 grain_intensity=args.grain,
                 target_size=2000
             )
