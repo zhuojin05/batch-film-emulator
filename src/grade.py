@@ -50,6 +50,11 @@ def main():
         description="Batch process digital photos to emulate analog film stocks using 3D LUTs and grain."
     )
     parser.add_argument(
+        "--gui",
+        action="store_true",
+        help="Start the interactive Web GUI for real-time photo editing."
+    )
+    parser.add_argument(
         "--style",
         type=str,
         default=None,
@@ -58,13 +63,13 @@ def main():
     parser.add_argument(
         "--input",
         type=str,
-        required=True,
-        help="Path to the input directory containing raw/original JPEG images."
+        required=False,
+        help="Path to the input directory containing raw/original JPEG/HEIC images."
     )
     parser.add_argument(
         "--output",
         type=str,
-        required=True,
+        required=False,
         help="Path to the output directory where processed images will be stored."
     )
     parser.add_argument(
@@ -81,6 +86,26 @@ def main():
     )
 
     args = parser.parse_args()
+
+    # If GUI is requested, launch the FastAPI server using Uvicorn
+    if args.gui:
+        import uvicorn
+        # Ensure the script directory is in the path
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        if script_dir not in sys.path:
+            sys.path.insert(0, script_dir)
+        from server import app
+        print("=" * 60)
+        print("Starting Interactive Film Emulator GUI...")
+        print("Open your browser and navigate to: http://127.0.0.1:8000")
+        print("=" * 60)
+        uvicorn.run(app, host="127.0.0.1", port=8000)
+        sys.exit(0)
+
+
+    # Validate input/output parameters when running in standard CLI mode
+    if not args.input or not args.output:
+        parser.error("the following arguments are required when not running in GUI mode: --input, --output")
 
     # 1. Validate Input Directory
     if not os.path.isdir(args.input):

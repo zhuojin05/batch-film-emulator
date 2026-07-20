@@ -1,5 +1,6 @@
 import os
 import numpy as np
+# pyrefly: ignore [missing-import]
 from PIL import Image, ImageFilter
 
 def load_cube_file(cube_path: str) -> ImageFilter.Color3DLUT:
