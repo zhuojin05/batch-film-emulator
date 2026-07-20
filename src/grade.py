@@ -84,6 +84,25 @@ def main():
         default=1.0,
         help="LUT blend strength/opacity (float between 0.0 and 1.0, default 1.0)."
     )
+    parser.add_argument(
+        "--brightness",
+        type=float,
+        default=0.0,
+        help="Exposure/brightness adjustment (float between -1.0 and 1.0, default 0.0)."
+    )
+    parser.add_argument(
+        "--contrast",
+        type=float,
+        default=0.0,
+        help="Contrast adjustment (float between -1.0 and 1.0, default 0.0)."
+    )
+    parser.add_argument(
+        "--saturation",
+        type=float,
+        default=0.0,
+        help="Saturation/color adjustment (float between -1.0 and 1.0, default 0.0)."
+    )
+
 
     args = parser.parse_args()
 
@@ -161,8 +180,12 @@ def main():
                 lut_path=lut_path,
                 lut_blend=args.blend,
                 grain_intensity=args.grain,
-                target_size=2000
+                target_size=2000,
+                brightness=args.brightness,
+                contrast=args.contrast,
+                saturation=args.saturation
             )
+
             item_elapsed = time.time() - item_start
             print(f" Success ({item_elapsed:.2f}s)")
             success_count += 1
